@@ -11,7 +11,12 @@ import {
     COMMENT_LIST_ERROR,
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
-    COMMENT_LIST_UNLOAD, USER_LOGIN_SUCCESS, USER_PROFILE_ERROR, USER_PROFILE_RECEIVED, USER_PROFILE_REQUEST
+    COMMENT_LIST_UNLOAD,
+    USER_LOGIN_SUCCESS,
+    USER_PROFILE_ERROR,
+    USER_PROFILE_RECEIVED,
+    USER_PROFILE_REQUEST,
+    USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
 
@@ -112,6 +117,13 @@ export const userLoginAttempt = (username, password) => {
             })
         });
     };
+};
+
+export const userSetId = (userId) => {
+    return {
+        type: USER_SET_ID,
+        userId
+    }
 };
 
 export const userProfileRequest = () => {
