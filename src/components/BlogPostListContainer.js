@@ -3,6 +3,7 @@ import BlogPostList from "./BlogPostList";
 import {blogPostListFetch} from "../actions/actions";
 import {connect} from "react-redux";
 import {Spinner} from "./Spinner";
+import {Paginator} from "./Paginator";
 
 
 const mapStateToProps = state => ({
@@ -11,7 +12,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     blogPostListFetch
-}
+};
 
 class BlogPostListContainer extends React.Component {
     componentDidMount() {
@@ -28,7 +29,12 @@ class BlogPostListContainer extends React.Component {
             return (<Spinner/>);
         }
 
-        return (<BlogPostList posts={posts} />);
+        return (
+            <div>
+                <BlogPostList posts={posts} />
+                <Paginator/>
+            </div>
+        );
     }
 }
 
