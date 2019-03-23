@@ -12,7 +12,7 @@ import {
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
     COMMENT_LIST_UNLOAD,
-    USER_LOGIN_SUCCESS,
+    USER_LOGIN_SUCCESS, USER_LOGOUT,
     USER_PROFILE_ERROR,
     USER_PROFILE_RECEIVED,
     USER_PROFILE_REQUEST,
@@ -139,6 +139,12 @@ export const userLoginAttempt = (username, password) => {
             })
         });
     };
+};
+
+export const userLogout = () => {
+    return {
+        type: USER_LOGOUT,
+    }
 };
 
 export const userSetId = (userId) => {
