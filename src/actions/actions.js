@@ -19,6 +19,7 @@ import {
     USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
+import {parseApiErrors} from "../apiUtils";
 
 
 
@@ -115,9 +116,7 @@ export const commentAdd = (comment, blogPostId) => {
         ).then(
             response => dispatch(commentAdded(response))
         ).catch(error => {
-            throw new SubmissionError({
-                content: 'This is an error.'
-            })
+            throw new SubmissionError(parseApiErrors(error))
         });
     };
 };
