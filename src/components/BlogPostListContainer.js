@@ -32,7 +32,7 @@ class BlogPostListContainer extends React.Component {
         return (
             <div>
                 <BlogPostList posts={posts} />
-                <Paginator/>
+                <Paginator currentPage={3} pageCount={5} />
             </div>
         );
     }
