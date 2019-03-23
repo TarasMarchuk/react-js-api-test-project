@@ -1,6 +1,6 @@
 import React from 'react';
 import BlogPostList from "./BlogPostList";
-import {blogPostListFetch} from "../actions/actions";
+import {blogPostListFetch, blogPostListSetPage} from "../actions/actions";
 import {connect} from "react-redux";
 import {Spinner} from "./Spinner";
 import {Paginator} from "./Paginator";
@@ -11,19 +11,23 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    blogPostListFetch
+    blogPostListFetch, blogPostListSetPage
 };
 
 class BlogPostListContainer extends React.Component {
     componentDidMount() {
-        setTimeout(this.props.blogPostListAdd, 3000);
-        setTimeout(this.props.blogPostListAdd, 5000);
-        setTimeout(this.props.blogPostListAdd, 7000);
         this.props.blogPostListFetch();
     }
 
+    componentDidUpdate(prevProps) {
+        const {currentPage, blogPostListFetch} = this.props;
+        if (prevProps.currentPage !== currentPage) {
+            blogPostListFetch(currentPage);
+        }
+    }
+
     render() {
-        const {posts, isFetching} = this.props;
+        const {posts, isFetching, blogPostListSetPage, currentPage} = this.props;
 
         if (isFetching) {
             return (<Spinner/>);
@@ -32,7 +36,7 @@ class BlogPostListContainer extends React.Component {
         return (
             <div>
                 <BlogPostList posts={posts} />
-                <Paginator currentPage={3} pageCount={5} />
+                <Paginator currentPage={currentPage} pageCount={5} setPage={blogPostListSetPage} />
             </div>
         );
     }
