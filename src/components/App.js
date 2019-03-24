@@ -7,6 +7,7 @@ import BlogPostContainer from "./BlogPostContainer";
 import {requests} from "../agent";
 import {connect} from "react-redux";
 import {userLogout, userProfileFetch, userSetId} from "../actions/actions";
+import RegisterForm from "./RegisterForm";
 
 const mapStateToProps = state => ({
     ...state.auth
@@ -39,8 +40,6 @@ class App extends React.Component {
         const {userId, userData, userProfileFetch} = this.props;
 
         if (prevProps.userId !== userId && userId !== null && userData === null) {
-            console.log(`Old user id ${prevProps.userId}`);
-            console.log(`New user id ${userId}`);
             userProfileFetch(userId);
         }
     }
@@ -54,6 +53,7 @@ class App extends React.Component {
                 <Switch>
                     <Route path="/login" component={LoginForm} />
                     <Route path="/blog-post/:id" component={BlogPostContainer} />
+                    <Route path="/register" component={RegisterForm} />
                     <Route path="/:page?" component={BlogPostListContainer} />
                 </Switch>
             </div>
