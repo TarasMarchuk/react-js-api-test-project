@@ -1,7 +1,6 @@
 import {requests} from "../agent";
 import {
     BLOG_POST_ERROR,
-    BLOG_POST_LIST_ADD,
     BLOG_POST_LIST_ERROR,
     BLOG_POST_LIST_RECEIVED,
     BLOG_POST_LIST_REQUEST, BLOG_POST_LIST_SET_PAGE,
@@ -76,6 +75,28 @@ export const blogPostFetch = id => {
             .then(response => dispatch(blogPostReceived(response)))
             .catch(error => dispatch(blogPostError(error)));
     }
+};
+
+export const blogPostAdd = (title, content) => {
+    return (dispatch) => {
+        return requests.post(
+            '/blog_posts',
+            {
+                title,
+                content,
+                slug: title && title.replace(/ /g, "-").toLowerCase()
+            }
+        ).catch(error => {
+            if (401 === error.response.status) {
+                return dispatch(userLogout());
+            } else if (403 === error.response.status) {
+                throw new SubmissionError({
+                    _error: 'You do not have rights to publish blog posts!'
+                });
+            }
+            throw new SubmissionError(parseApiErrors(error));
+        });
+    };
 };
 
 export const commentListRequest = () => ({
@@ -187,7 +208,7 @@ export const userConfirm = (confirmationToken) => {
     return (dispatch) => {
         return requests.post('/users/confirm', {confirmationToken}, false)
             .then(() => dispatch(userConfirmationSuccess()))
-            .catch(error => {
+            .catch(() => {
                 throw new SubmissionError({
                     _error: 'Confirmation token is invalid'
                 })
@@ -231,11 +252,3 @@ export const userProfileFetch = (userId) => {
         ).catch(() => dispatch(userProfileError(userId)))
     }
 };
-
-export const blogPostListAdd = () => ({
-    type: BLOG_POST_LIST_ADD,
-    data: {
-        id: Math.floor(Math.random() * 100 + 3),
-        title: 'A newly added blog post'
-    }
-});
