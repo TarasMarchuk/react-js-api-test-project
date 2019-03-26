@@ -6,13 +6,15 @@ import {Redirect} from "react-router";
 import {renderField} from "../form";
 import {blogPostAdd} from "../actions/actions";
 import ImageUpload from "./ImageUpload";
+import {ImageBrowser} from "./ImageBrowser";
 
 const mapDispatchToProps = {
     blogPostAdd
 };
 
 const mapStateToProps = state => ({
-    userData: state.auth.userData
+    userData: state.auth.userData,
+    ...state.blogPostForm
 });
 
 class BlogPostForm extends React.Component {
@@ -31,7 +33,7 @@ class BlogPostForm extends React.Component {
             return <Redirect to="/login" />
         }
 
-        const {submitting, handleSubmit, error} = this.props;
+        const {submitting, handleSubmit, error, images} = this.props;
 
         return (
             <div className="card mt-3 mb-6 shadow-sm">
@@ -42,6 +44,7 @@ class BlogPostForm extends React.Component {
                         <Field name="content" label="Content:" type="textarea" component={renderField} />
 
                         <ImageUpload />
+                        <ImageBrowser images={images} />
 
                         <button type="submit" className="btn btn-primary btn-big btn-block" disabled={submitting}>
                             Publsh Now!
