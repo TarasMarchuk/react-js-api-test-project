@@ -5,7 +5,7 @@ import {canWriteBlogPost} from "../apiUtils";
 import {Redirect} from "react-router";
 import {renderField} from "../form";
 import {blogPostAdd} from "../actions/actions";
-import {ImageUpload} from "./ImageUpload";
+import ImageUpload from "./ImageUpload";
 
 const mapDispatchToProps = {
     blogPostAdd
