@@ -1,20 +1,31 @@
 import {requests} from "../agent";
 import {
-    BLOG_POST_ERROR, BLOG_POST_FORM_UNLOAD,
+    BLOG_POST_ERROR,
+    BLOG_POST_FORM_UNLOAD,
     BLOG_POST_LIST_ERROR,
     BLOG_POST_LIST_RECEIVED,
-    BLOG_POST_LIST_REQUEST, BLOG_POST_LIST_SET_PAGE,
+    BLOG_POST_LIST_REQUEST,
+    BLOG_POST_LIST_SET_PAGE,
     BLOG_POST_RECEIVED,
     BLOG_POST_REQUEST,
-    BLOG_POST_UNLOAD, COMMENT_ADDED,
+    BLOG_POST_UNLOAD,
+    COMMENT_ADDED,
     COMMENT_LIST_ERROR,
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
-    COMMENT_LIST_UNLOAD, IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED, USER_CONFIRMATION_SUCCESS,
-    USER_LOGIN_SUCCESS, USER_LOGOUT,
+    COMMENT_LIST_UNLOAD,
+    IMAGE_DELETED,
+    IMAGE_UPLOAD_ERROR,
+    IMAGE_UPLOAD_REQUEST,
+    IMAGE_UPLOADED,
+    USER_CONFIRMATION_SUCCESS,
+    USER_LOGIN_SUCCESS,
+    USER_LOGOUT,
     USER_PROFILE_ERROR,
     USER_PROFILE_RECEIVED,
-    USER_PROFILE_REQUEST, USER_REGISTER_COMPLETE, USER_REGISTER_SUCCESS,
+    USER_PROFILE_REQUEST,
+    USER_REGISTER_COMPLETE,
+    USER_REGISTER_SUCCESS,
     USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
@@ -288,6 +299,14 @@ export const imageUpload = (file) => {
 
 export const imageDelete = (id) => {
     return (dispatch) => {
-        return requests.delete(`/images/${id}`);
+        return requests.delete(`/images/${id}`)
+            .then(() => dispatch(imageDeleted(id)));
+    }
+};
+
+export const imageDeleted = (id) => {
+    return {
+        type: IMAGE_DELETED,
+        imageId: id
     }
 };
